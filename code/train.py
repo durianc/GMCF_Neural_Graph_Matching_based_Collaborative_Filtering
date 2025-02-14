@@ -56,6 +56,10 @@ def train(args, data_info, show_loss):
         print('Epoch: {:03d}, Loss: {:.5f}, AUC: {:.5f}/{:.5f}, Logloss: {:.5f}/{:.5f}, NDCG@5: {:.5f}/{:.5f} NDCG@10: {:.5f}/{:.5f}'.
           format(step, cur_loss, val_auc, test_auc, val_logloss, test_logloss, val_ndcg5, test_ndcg5, val_ndcg10, test_ndcg10))
 
+    # 保存嵌入向量到npy文件
+    embedding_weights = model.feature_embedding.weight.detach().cpu().numpy()
+    np.save('../output/embeddings.npy', embedding_weights)
+    print("嵌入向量已保存为 embeddings.npy")
 
 def evaluate(model, data_loader, device):
     model.eval()

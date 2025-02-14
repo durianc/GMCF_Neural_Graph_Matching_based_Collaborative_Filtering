@@ -50,6 +50,7 @@ class Dataset(InMemoryDataset):
     def data_2_graphs(self, ratings_df, dataset='train'):
         graphs = []
         processed_graphs = 0
+        error_num = 0
         num_graphs = ratings_df.shape[0]
         one_per = int(num_graphs/1000)
         percent = 0.0
@@ -97,8 +98,8 @@ class Dataset(InMemoryDataset):
         error_num = 0
 
         ratings_df = pd.read_csv(self.ratingfile, sep=self.sep, header=None)
-        train_df, test_df = train_test_split(ratings_df, test_size=0.4, random_state=self.args.random_seed, stratify=ratings_df[[0,2]])
-        test_df, valid_df = train_test_split(test_df,  test_size=0.5, random_state=self.args.random_seed, stratify=test_df[[0,2]])
+        train_df, test_df = train_test_split(ratings_df, test_size=0.4, random_state=self.args.random_seed)
+        test_df, valid_df = train_test_split(test_df,  test_size=0.5, random_state=self.args.random_seed)
 
         # store a backup of train/valid/test dataframe
         if self.store_backup:
